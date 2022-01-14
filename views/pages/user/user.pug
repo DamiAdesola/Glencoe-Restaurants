@@ -1,0 +1,130 @@
+// Name: Oluwadamilola Adesola CU-ID: 101182761 COMP 2406: Assignment 4
+html 
+    head 
+        meta(charset='utf-8')
+        meta(name="description" ,content="Restaurant Menu: Assignment 1")
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        style
+            include ../../assets/css/styles.css
+        style
+            include ../../assets/css/cart-style.css
+        link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css")
+        title=user.fullName+"'s (@"+user.username+") Profile" 
+        link(rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/xhdBsyR/favicon-32x32.png")
+    head 
+    body(id = "main-body" data = restaurantData)
+        a(href="#" class="scrolltop" id="scroll-top")
+            i(class='bx bx-chevron-up scrolltop__icon')
+        header 
+            nav(class="nav bd-container")
+                a(href="/home" class="nav__logo") Glencoe Restaurants 
+                div(class="nav__menu" id="nav-menu")
+                    ul(class="nav__list")
+                        li(class="nav__item")
+                            a(href="/home" class="nav__link") Home
+                        li(class="nav__item")
+                        -  if(session.loggedIn)
+                            a(href="/home#restaurants" class="nav__link") Order
+                        -  else
+                            a(href="/home#restaurants" class="nav__link") Restaurants     
+                        li(class="nav__item")
+                            a(href="/users" class="nav__link") Users
+                        -  if(session.loggedIn)
+                            div(class="nav__item dropdown" id="user-menu")
+                                div(class = "droptbtn")
+                                    i(class='bx bx-user nav__link user-icon')  
+                                        a(class = "user-name")=session.userid
+                                div(class = 'dropdown-content' id = 'drop-down')
+                                    a(href="/profile/"+session.userid) Profile
+                                    a(href='/logout') Logout
+                        - else
+                            li(class="nav__item")
+                                a(href="/login" class="nav__link") Login
+                            li(class="nav__item")
+                                a(href="/register" class="nav__link") Register
+                        li(class="nav__item")
+                            i(class='bx bx-moon nav__link change-theme' id="theme-button") 
+                div(class="nav__toggle" id="nav-toggle")
+                    i(class='bx bx-menu')
+        main(class="l-main")    
+            section(class="home" id="home")
+                div(class="home__container bd-container bd-grid")
+                    divc(class="home__data")
+                        h1(class="home__title")=user.fullName
+                        h2(class="home__subtitle")=user.fullName+"'s Profile"
+                        a(href="#orders" class="button") View Orders
+                        - if (owner == true)
+                            - var url = "/users/"+user.id+"/edit-profile";
+                            a(href=url class="button" id = "edit-profile") Edit Profile
+                    img(src="https://i.ibb.co/m9cC8jh/home.png" alt="" class="home__img")
+            section(class="menu section bd-container" id="orders")
+                h2(class="section-title")=user.fullName+"'s Orders"     
+                div(class="menu__container bd-grid")
+                    - let count = 1;
+                    each orderData in orders
+                        div(class="menu__content")
+                            - let random_val = Math.floor((Math.random() * 100) + 1);
+                            - let image_link = "";
+                            #random_val
+                                if random_val % 2
+                                    - image_link = "https://static01.nyt.com/images/2017/08/16/dining/16REST-MADE-NICE-slide-7733/16REST-MADE-NICE-slide-7733-articleLarge.jpg?quality=75&auto=webp&disable=upscale";
+                                    image(src= image_link alt="" class="menu__img")
+                                else if(random_val % 3)
+                                    - image_link = "https://hips.hearstapps.com/del.h-cdn.co/assets/18/01/1515085622-gallery-1486133611-greek-alfredo-wide.jpg?crop=0.563xw:1.00xh;0.216xw,0&resize=480:*";
+                                    image(src= image_link alt="" class="menu__img")
+                                else if(random_val % 5)
+                                    - image_link = "https://d1ralsognjng37.cloudfront.net/48606855-f45c-4162-9e62-79dbe717bc72.jpeg"
+                                    image(src= image_link alt="" class="menu__img")                                                                                 
+                                else
+                                    - image_link = "https://assets.bonappetit.com/photos/5f73bbaf3c5c6889ae758961/16:9/w_2560%2Cc_limit/HR-Nice-Day-Pop-Up.jpg";
+                                    image(src= image_link alt="" class="menu__img")                                                                    
+                            h3(class="menu__name")="Order : "+count+" - "+orderData.restaurantName
+                            span(class="menu__detail")="🍽️ : Ordered Items"
+                                ul(class="menu__list")
+                                    each item in orderData.products
+                                        li(class="menu__item")
+                                            span(class="menu__item-name")="🧆 : "+item.name+" x "+item.quantity
+                            span(class="menu__detail")="💲 : "+(orderData.total).toFixed(2)
+                            span(class="menu__detail")="📅 : "+orderData.date
+                            - let url = "/orders/"+orderData.id;
+                            a(href = url class="button menu__button")
+                                i(class='bx bx-arrow-to-right')
+                        - count++;
+            section(class="contact section bd-container" id="about")
+                div(class="contact__container bd-grid")
+                    div(class="contact__data")
+                        span(class="section-subtitle contact__initial") User Profile
+                        h2(class="section-title contact__initial") About
+                        h4(class="section-subtitle contact__initial")="👤 "+user.fullName+" (@"+user.username+")"
+                        p(class="contact__description")="📧 "+user.email
+                        p(class="contact__description")="🥘 Number of Orders : "+(user.orders).length
+                        - if (user.aboutme != "" && user.aboutme != undefined)
+                            p(class="contact__description")="ℹ️ About Me : "+user.aboutme
+                        - if (user.location != null && user.aboutme != "")
+                            p(class="contact__description")="📍 Location : "+user.location
+        footer(class="footer section bd-container")
+            div(class="footer__container bd-grid")
+                div(class="footer__content")
+                    a(href="#" class="footer__logo") Glencoe Restaurants 
+                div(class="footer__content")
+                    h3(class="footer__title") Restaurants
+                    ul
+                        for restaurant in restaurants
+                            li
+                                - let name = restaurant[0]
+                                - let delivery_fee = restaurant[1]
+                                - let min_order = restaurant[2]
+                                - let url = "/restaurants/"+name.replace(/\s+/g, '-').toLowerCase();
+                                a(href=url class="footer__link")=name
+                div(class="footer__content")
+                    h3(class="footer__title") Contact
+                    ul
+                        <li>🏠 Ottawa, Canada</li>
+                        <li>969 - 588 - 767</li>
+                        <li>contact@glencoerestaurants.com</li>
+            p(class = "footer__copy")
+                a(href="https://damiadesola.github.io/" class = "footer__copy")="Glencoe Restaurants. All right reserved | By: Oluwadamilola Adesola"
+        script(src="https://unpkg.com/scrollreveal")
+        script  
+            include ../../assets/js/main.js
+

@@ -1,0 +1,46 @@
+// Name: Oluwadamilola Adesola CU-ID: 101182761 COMP 2406: Assignment 4
+
+html
+    head
+        title=user.fullName+"'s (@"+user.username+") Edit" 
+        link(rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/mXQH6sm/favicon-32x32.png")
+        link(rel='stylesheet' type='text/css' href='/views/assets/css/update-user.css')
+    head
+    body 
+        .wrapper
+            form.add.column(action='javascript:updateUser()')
+                fieldset
+                    legend Update User Profile
+                    .row
+                        .item
+                            label User ID:
+                            input#id(type='text' required='' value=user.id readonly='')
+                        .item
+                            label Full Name:
+                            input#fullname(type='text' required='' value=user.fullName name=user.id)
+                        .item
+                            label Username:
+                            input#username(type='text' required='' value=user.username readonly='')
+                        .item
+                            label Email:
+                            input#email(type='email' required='' value=user.email)
+                        .item
+                            label About Me:
+                            input#about-me(type='text' value=user.aboutme)
+                        .item
+                            label Location:
+                            input#location(type='text' value=user.location)
+                        .item
+                            label Privacy Settings:
+                            label.switch
+                                - if(user.privacy == true)
+                                    input#privacy(type='checkbox' checked='' name=user.privacy)
+                                - else
+                                    input#privacy(type='checkbox')
+                                span(class = "slider round")
+                    .row
+                        .item.center
+                            .item.center
+                                button#update-user.button(type='submit')
+                                    span.button__text Save
+        script(src='/views/assets/js/updateUser.js')

@@ -1,0 +1,24 @@
+{
+  "name": "glencoe-restaurants",
+  "version": "1.0.0",
+  "description": "Express Restaurant Manager",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "Oluwadamilola Adesola",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-mongo": "^4.6.0",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongodb": "^4.2.1",
+    "mongoose": "^6.0.14",
+    "nodemon": "^2.0.15",
+    "pug": "^3.0.2"
+  }
+}

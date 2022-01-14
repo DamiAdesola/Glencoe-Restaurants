@@ -1,0 +1,43 @@
+// Name: Oluwadamilola Adesola CU-ID: 101182761 COMP 2406: Assignment 4
+html
+head
+  meta(charset='UTF-8')
+  title Glencoe Resturants - Registeration
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+  link(rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/j49SZYL/favicon-32x32.png")
+  style
+    include ../../assets/css/register.css
+.loginTopline
+  p User Registeration
+.container
+  form(name='user-registration-form' action='javascript:registerUser()' role='form')
+    .form-group
+      label.required(for='fullName') Full Name
+      input#fullName.form-control(type='text' name='fullName' autocomplete='false' required='' title='Name is required.' placeholder='Enter full name' autofocus='' oninput='showValidityCue(this)' onblur='showValidityCue(this)')
+      .requirements Full name is required.
+    .form-group
+      label.required(for='username') Username
+      input#username.form-control(type='text' name='username' autocomplete='false' required='' title='Username is required.' placeholder='Enter username' oninput='validateUsername(this)' onblur='validateUsername(this)' maxlength='16')
+      .requirements Username must be at least 5 characters long and contain only letters and numbers.
+    .form-group
+      label.required(for='email') Email Address
+      input#email.form-control(type='email' name='email' autocomplete='false' required='' placeholder='Enter email' oninput='showValidityCue(this)' onblur='showValidityCue(this)')
+      .requirements Must be a valid email address!
+    .form-group
+      label.required(for='password') Password
+      input#password.form-control(type='password' name='password' autocomplete='false' required='' pattern='^((?=.*[0-9])(?=.*[a-zA-Z])).{6,24}$' title='Enter a password between 6 and 24 characters, containing at least one letter and one number.' placeholder='Enter Passsword' oninput='showValidityCue(this);' onblur='showValidityCue(this);')
+      .requirements Passwords is a required field!
+      p.help-block
+        | Passwords must be between 6 and 24 characters long, containing at least one letter
+        | and one number. Please note, passwords are case sensitive.
+    .form-group
+      label.required(for='passwordConfirm') Confirm Password
+      input#passwordConfirm.form-control(type='password' name='passwordConfirm' autocomplete='false' required='' pattern='^((?=.*[0-9])(?=.*[a-zA-Z])).{6,24}$' title='Passwords must match.' placeholder='Confirm Password' onblur='validateConfirmPassword(this);' oninput='validateConfirmPassword(this);')
+      .requirements#password-error Confirm Password is a required field and must match with password!
+    .col-sm-20.register-btn
+      button.btn(type='submit') Register
+  .reg-link-area
+    a.reg-link(href='/login') Already have an account? Login
+  script  
+    include ../../assets/js/register.js

@@ -1,0 +1,25 @@
+// Name: Oluwadamilola Adesola CU-ID: 101182761 COMP 2406: Assignment 4
+html
+head
+  meta(charset='UTF-8')
+  title Glencoe Restaurants - Login
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+  link(rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/8jsmsD3/favicon-32x32.png")
+  style
+    include ../../assets/css/login.css
+.loginFormWrapper
+  .loginTopline
+    p User Login
+  form.loginForm
+    .inputBlock
+      input.emailInput(placeholder='Username' id = "username" type='email' name='UserLogin[username]')
+    .inputBlock
+      input.emailInput(placeholder='Password' id = "password" type='password' name='UserLogin[password]' maxlength='24')
+    .error-section(id = 'errorMsg')
+    .confirmblock
+      a.login-btn(id = "loginBtn") Login
+    nav.login-links-block
+      a.reg-link(href='/register') Want to join us? Register
+script  
+    include ../../assets/js/login.js

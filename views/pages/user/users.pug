@@ -1,0 +1,101 @@
+// Name: Oluwadamilola Adesola CU-ID: 101182761 COMP 2406: Assignment 3
+
+html 
+    head 
+        meta(charset='utf-8')
+        meta(name="description" ,content="Restaurant Menu: Assignment 1")
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        style
+            include ../../assets/css/styles.css
+        link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css")
+        title Glencoe Restaurants: Users
+        link(rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/8gsHvzz/favicon-32x32.png")
+    head 
+    body 
+        a(href="#" class="scrolltop" id="scroll-top")
+            i(class='bx bx-chevron-up scrolltop__icon')
+        header 
+            nav(class="nav bd-container")
+                a(href="/home" class="nav__logo") Glencoe Restaurants 
+                div(class="nav__menu" id="nav-menu")
+                    ul(class="nav__list")
+                        li(class="nav__item")
+                            a(href="/home" class="nav__link") Home
+                        li(class="nav__item")
+                        -  if(session.loggedIn)
+                            a(href="/home#restaurants" class="nav__link") Order
+                        -  else
+                            a(href="/home#restaurants" class="nav__link") Restaurants     
+                        li(class="nav__item")
+                            a(href="/users" class="nav__link") Users
+                        -  if(session.loggedIn)
+                            div(class="nav__item dropdown" id="user-menu")
+                                    div(class = "droptbtn")
+                                        i(class='bx bx-user nav__link user-icon')  
+                                            a(class = "user-name")=session.userid
+                                    div(class = 'dropdown-content' id = 'drop-down')
+                                        a(href="/profile/"+session.userid) Profile
+                                        a(href='/logout') Logout
+                        - else
+                            li(class="nav__item")
+                                a(href="/login" class="nav__link") Login
+                            li(class="nav__item")
+                                a(href="/register" class="nav__link") Register
+                        li(class="nav__item")
+                            i(class='bx bx-moon nav__link change-theme' id="theme-button") 
+                div(class="nav__toggle" id="nav-toggle")
+                    i(class='bx bx-menu')
+        main(class="l-main")    
+            section(class="home" id="home")
+                div(class="home__container bd-container bd-grid")
+                    divc(class="home__data")
+                        h1(class="home__title") Glencoe Restaurants
+                        h2(class="home__subtitle") View Public Users
+                        a(href="/users" class="button") View Users
+                    img(src="https://i.ibb.co/m91VTcJ/Daco-152168.png" alt="" class="home__img")
+            section(class="menu section bd-container" id="users")
+                span(class="section-subtitle") Glencoe Restaurants
+                h2(class="section-title") Users
+                div(class="menu__container bd-grid")
+                    - if(users_data.length > 0)
+                        for data in users_data
+                            div(class="menu__content")
+                                - image_link = "https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/avatar-512.png"
+                                image(src= image_link alt="" class="menu__img")                                                                                
+                                h3(class="menu__name")=data.fullName
+                                span(class="menu__detail")="👤 : @"+data.username
+                                span(class="menu__detail")=data.email
+                                a(class="button menu__button js-cd-add-to-cart" href="/users/"+data.id)
+                                    i(class='bx bx-arrow-to-right')
+                    - else 
+                        div(class="menu__content")
+                            h3(class="menu__name") No Users Found
+                            span(class="menu__detail")
+                            span(class="menu__detail")
+                            a(class="button menu__button js-cd-add-to-cart" href="/users")
+                                i(class='bx bx-arrow-to-right')
+        footer(class="footer section bd-container")
+            div(class="footer__container bd-grid")
+                div(class="footer__content")
+                    a(href="#" class="footer__logo") Glencoe Restaurants 
+                div(class="footer__content")
+                    h3(class="footer__title") Restaurants
+                    ul
+                        for restaurant in restaurants
+                            li
+                                - let name = restaurant[0]
+                                - let delivery_fee = restaurant[1]
+                                - let min_order = restaurant[2]
+                                - let url = "/restaurants/"+name.replace(/\s+/g, '-').toLowerCase();
+                                a(href=url class="footer__link")=name
+                div(class="footer__content")
+                    h3(class="footer__title") Contact
+                    ul
+                        <li>🏠 Ottawa, Canada</li>
+                        <li>969 - 588 - 767</li>
+                        <li>contact@glencoerestaurants.com</li>
+            p(class = "footer__copy")
+                a(href="https://damiadesola.github.io/" class = "footer__copy")="Glencoe Restaurants. All right reserved | By: Oluwadamilola Adesola"
+        script(src="https://unpkg.com/scrollreveal")
+        script  
+            include ../../assets/js/main.js

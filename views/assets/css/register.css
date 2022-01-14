@@ -1,0 +1,87 @@
+@import "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap";
+ @import 'http://weloveiconfonts.com/api/?family=fontawesome';
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #434649;
+    box-sizing: border-box;
+    background: #e9e9e9 ;
+}
+
+.loginTopline {
+  display: table;
+  width: 100%;
+}
+
+.loginTopline p {
+  display: table-cell;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  font-weight: 100;
+  font-size: 1.8em;
+  padding: 15px 0;
+}
+
+form {
+    max-width: 500px;
+    margin: 1em auto;
+  }
+  .form-group {
+    position: relative;
+    margin: 20px 0 0 0;
+  }
+  .form-group > input {
+    border: 1px solid #999;
+  }
+  .form-group > .form-control {
+    padding-right: 30px;
+  }
+  .form-group > label.required:after {
+    content: " * ";
+    color: red;
+  }
+  .form-group > .requirements {
+    color: red;
+    display: none;
+  }
+  .form-group.validBlock > .requirements {
+    display: none;
+  }
+  .form-group.invalidBlock > .requirements {
+    display: block;
+  }
+  .form-group > .help-block {
+    font-size: small;
+  }
+  
+.register-btn button {
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  color: white;
+  background: #069C54; 
+  margin-top: 20px;
+  border-color: #069C54;
+}
+
+.register-btn button:hover,
+.register-btn button:active {
+  color: white;
+  background: #048654; 
+  border-color: #048654;
+}
+
+.reg-link-area {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.reg-link {
+  text-align: center;
+  padding-left: 10px;
+  cursor: pointer;
+  color: #069C54;
+}
+
+.reg-link:hover {
+  color: #048654;
+}

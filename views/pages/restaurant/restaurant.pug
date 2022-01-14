@@ -1,0 +1,153 @@
+// Name: Oluwadamilola Adesola CU-ID: 101182761 COMP 2406: Assignment 4
+html 
+    head 
+        meta(charset='utf-8')
+        meta(name="description" ,content="Restaurant Menu: Assignment 1")
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        style
+            include ../../assets/css/styles.css
+        style
+            include ../../assets/css/cart-style.css
+        link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css")
+        title=JSON.parse(restaurantData).name+" Menu" 
+        link(rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/xhdBsyR/favicon-32x32.png")
+    head 
+    body(id = "main-body" data = restaurantData)
+        a(href="#" class="scrolltop" id="scroll-top")
+            i(class='bx bx-chevron-up scrolltop__icon')
+        header 
+            nav(class="nav bd-container")
+                - var restID = JSON.parse(restaurantData).id
+                a(href="/home" class="nav__logo" id="restaurant-name" restID=restID) Glencoe Restaurants 
+                div(class="nav__menu" id="nav-menu")
+                    ul(class="nav__list")
+                        li(class="nav__item")
+                            a(href="/home" class="nav__link") Home
+                        li(class="nav__item")
+                        -  if(session.loggedIn)
+                            a(href="/home#restaurants" class="nav__link") Order
+                        -  else
+                            a(href="/home#restaurants" class="nav__link") Restaurants     
+                        li(class="nav__item")
+                            a(href="/users" class="nav__link") Users
+                        -  if(session.loggedIn)
+                            div(class="nav__item dropdown" id="user-menu")
+                                div(class = "droptbtn")
+                                    i(class='bx bx-user nav__link user-icon')  
+                                        a(class = "user-name")=session.userid
+                                div(class = 'dropdown-content' id = 'drop-down')
+                                    a(href="/profile/"+session.userid) Profile
+                                    a(href='/logout') Logout
+                        - else
+                            li(class="nav__item")
+                                a(href="/login" class="nav__link") Login
+                            li(class="nav__item")
+                                a(href="/register" class="nav__link") Register
+                        li(class="nav__item")
+                            i(class='bx bx-moon nav__link change-theme' id="theme-button") 
+                div(class="nav__toggle" id="nav-toggle")
+                    i(class='bx bx-menu')
+        main(class="l-main")    
+            section(class="home" id="home")
+                div(class="home__container bd-container bd-grid")
+                    divc(class="home__data")
+                        h1(class="home__title")=JSON.parse(restaurantData).name
+                        h2(class="home__subtitle") Try the best food of the week. 
+                        a(href="#menu" class="button") View Menu
+                    img(src="https://i.ibb.co/m9cC8jh/home.png" alt="" class="home__img")
+            section(class="menu section bd-container" id="menu")
+                h2(class="section-title") Menu        
+                each mainVal, mainKey in JSON.parse(restaurantData)
+                    if mainKey == 'menu'
+                        each menuVal, menuCategory in mainVal
+                            - var hrefData = menuCategory.replace(/\s+/g, '-').toLowerCase();
+                            h3(class="section-subtitle" id = hrefData)=menuCategory
+                            div(class="menu__container bd-grid")
+                                each menuItem in menuVal
+                                    div(class="menu__content")
+                                        - let random_val = Math.floor((Math.random() * 100) + 1);
+                                        - let image_link = "";
+                                        #random_val
+                                            if random_val % 2
+                                                - image_link = "https://static01.nyt.com/images/2017/08/16/dining/16REST-MADE-NICE-slide-7733/16REST-MADE-NICE-slide-7733-articleLarge.jpg?quality=75&auto=webp&disable=upscale";
+                                                image(src= image_link alt="" class="menu__img")
+                                            else if(random_val % 3)
+                                                - image_link = "https://hips.hearstapps.com/del.h-cdn.co/assets/18/01/1515085622-gallery-1486133611-greek-alfredo-wide.jpg?crop=0.563xw:1.00xh;0.216xw,0&resize=480:*";
+                                                image(src= image_link alt="" class="menu__img")
+                                            else if(random_val % 5)
+                                                - image_link = "https://d1ralsognjng37.cloudfront.net/48606855-f45c-4162-9e62-79dbe717bc72.jpeg"
+                                                image(src= image_link alt="" class="menu__img")                                                                                 
+                                            else
+                                                - image_link = "https://assets.bonappetit.com/photos/5f73bbaf3c5c6889ae758961/16:9/w_2560%2Cc_limit/HR-Nice-Day-Pop-Up.jpg";
+                                                image(src= image_link alt="" class="menu__img")                                                                    
+                                        h3(class="menu__name")=menuItem.name
+                                        span(class="menu__detail")=menuItem.description
+                                        span(class="menu__preci")="$"+(menuItem.price).toFixed(2)
+                                        a(class="button menu__button js-cd-add-to-cart" id = (menuItem.name).replace(/\s+/g, '-').toLowerCase() price = (menuItem.price).toFixed(2) name = menuItem.name image = image_link)
+                                            i(class='bx bx-cart-alt')
+            section(class="contact section bd-container" id="about")
+                div(class="contact__container bd-grid")
+                    div(class="contact__data")
+                        span(class="section-subtitle contact__initial") Need More Info
+                        h2(class="section-title contact__initial") About
+                        h4(class="section-subtitle contact__initial")=JSON.parse(restaurantData).name
+                        p(class="contact__description") Operation Time: 8:00am - 10:00pm
+                        p(class="contact__description" id= "delivery-fee")="Minimum Order: $"+(JSON.parse(restaurantData).min_order).toFixed(2)
+                        p(class="contact__description")="Delivery Fee: $"+(JSON.parse(restaurantData).delivery_fee).toFixed(2)
+                        p(class="contact__description")="NOTE: Tax and Delivery Charges will be added when you checkout. Minimum Order must be met to order"
+        div(class="cd-cart cd-cart--empty js-cd-cart")
+            a(href="#0" class="cd-cart__trigger text-replace") Cart
+                ul(class="cd-cart__count") 
+                    li 0
+                    li 0
+            div(class="cd-cart__content")
+                div(class="cd-cart__layout")
+                    header(class="cd-cart__header")
+                        h2 Cart
+                        span(class="cd-cart__undo") Item removed. 
+                            a(href="#0") Undo
+                    div(class="cd-cart__body")
+                        ul
+                    footer(class="cd-cart__footer")
+                        - const globalMinOrder = JSON.parse(restaurantData).min_order;
+                        - const globalDelFee =  JSON.parse(restaurantData).delivery_fee;
+                        a(class="cd-cart__checkout" id = "checkout-info" DelFee = globalDelFee MinOrder = globalMinOrder onclick="checkout()" restaurant= JSON.parse(restaurantData).name)
+                            em Checkout - $<span id = "checkout-amount">0</span>
+                                svg(class="icon icon--sm" viewBox="0 0 24 24")
+                                    g(fill="none" stroke="currentColor" )
+                                        line(stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="3" y1="12" x2="21" y2="12")
+                                        polyline(stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="15,6 21,12 15,18 ")
+        footer(class="footer section bd-container")
+            div(class="footer__container bd-grid")
+                div(class="footer__content")
+                    a(href="#" class="footer__logo")=JSON.parse(restaurantData).name
+                div(class="footer__content")
+                    h3(class="footer__title") Restaurants
+                    ul
+                        for restaurant in restaurants
+                            li
+                                - let name = restaurant[0]
+                                - let delivery_fee = restaurant[1]
+                                - let min_order = restaurant[2]
+                                - let url = "/restaurants/"+name.replace(/\s+/g, '-').toLowerCase();
+                                a(href=url class="footer__link")=name
+                div(class="footer__content")
+                    h3(class="footer__title") Categories
+                    ul
+                        each mainVal, mainKey in JSON.parse(restaurantData)
+                            if mainKey == 'menu'
+                                each menuVal, menuCategory in mainVal
+                                    li
+                                        - var hrefData = menuCategory.replace(/\s+/g, '-').toLowerCase();
+                                        a(href="#"+hrefData class="footer__link")=menuCategory
+            p(class = "footer__copy")
+                a(href="https://damiadesola.github.io/" class = "footer__copy")="Glencoe Restaurants. All right reserved | By: Oluwadamilola Adesola"
+        script(src="https://unpkg.com/scrollreveal")
+        script  
+            include ../../assets/js/restaurantMain.js
+        script  
+            include ../../assets/js/main.js
+        script  
+            include ../../assets/js/cart.js
+        script  
+            include ../../assets/js/util.js
